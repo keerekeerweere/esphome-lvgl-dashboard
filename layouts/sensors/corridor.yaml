@@ -11,6 +11,13 @@ storage_m1_power_sensor:
           char buf[18];
           snprintf(buf, sizeof(buf), "%+.2f kW", x);
           return std::string(buf);
+    - lvgl.bar.update:
+        id: storage_m1_power_bar
+        value: !lambda |-
+          if (std::isnan(x)) return 0;
+          float magnitude = x < 0.0f ? -x : x;
+          if (magnitude > 11.0f) magnitude = 11.0f;
+          return (int) (magnitude * 100.0f);
 
 storage_m2_power_sensor:
   sensor:
@@ -25,6 +32,13 @@ storage_m2_power_sensor:
           char buf[18];
           snprintf(buf, sizeof(buf), "%+.2f kW", x);
           return std::string(buf);
+    - lvgl.bar.update:
+        id: storage_m2_power_bar
+        value: !lambda |-
+          if (std::isnan(x)) return 0;
+          float magnitude = x < 0.0f ? -x : x;
+          if (magnitude > 11.0f) magnitude = 11.0f;
+          return (int) (magnitude * 100.0f);
 
 storage_m3_power_sensor:
   sensor:
@@ -39,6 +53,13 @@ storage_m3_power_sensor:
           char buf[18];
           snprintf(buf, sizeof(buf), "%+.2f kW", x);
           return std::string(buf);
+    - lvgl.bar.update:
+        id: storage_m3_power_bar
+        value: !lambda |-
+          if (std::isnan(x)) return 0;
+          float magnitude = x < 0.0f ? -x : x;
+          if (magnitude > 11.0f) magnitude = 11.0f;
+          return (int) (magnitude * 100.0f);
 
 storage_m1_soc_sensor:
   sensor:
@@ -53,6 +74,14 @@ storage_m1_soc_sensor:
           char buf[16];
           snprintf(buf, sizeof(buf), "%.0f%%", x);
           return std::string(buf);
+    - lvgl.bar.update:
+        id: storage_m1_soc_bar
+        value: !lambda |-
+          if (std::isnan(x)) return 0;
+          float value = x;
+          if (value < 0.0f) value = 0.0f;
+          if (value > 100.0f) value = 100.0f;
+          return (int) value;
 
 storage_m2_soc_sensor:
   sensor:
@@ -67,6 +96,14 @@ storage_m2_soc_sensor:
           char buf[16];
           snprintf(buf, sizeof(buf), "%.0f%%", x);
           return std::string(buf);
+    - lvgl.bar.update:
+        id: storage_m2_soc_bar
+        value: !lambda |-
+          if (std::isnan(x)) return 0;
+          float value = x;
+          if (value < 0.0f) value = 0.0f;
+          if (value > 100.0f) value = 100.0f;
+          return (int) value;
 
 storage_m3_soc_sensor:
   sensor:
@@ -81,3 +118,11 @@ storage_m3_soc_sensor:
           char buf[16];
           snprintf(buf, sizeof(buf), "%.0f%%", x);
           return std::string(buf);
+    - lvgl.bar.update:
+        id: storage_m3_soc_bar
+        value: !lambda |-
+          if (std::isnan(x)) return 0;
+          float value = x;
+          if (value < 0.0f) value = 0.0f;
+          if (value > 100.0f) value = 100.0f;
+          return (int) value;

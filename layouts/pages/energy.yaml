@@ -27,228 +27,430 @@ widgets:
     widgets:
     - obj:
         width: 100%
-        height: 2
-        bg_color: 0x555555
+        height: 98
+        bg_color: 0x202733
+        radius: 16
         border_width: 0
-        radius: 1
-        scrollbar_mode: "off"
-    - obj:
-        width: 49%
-        height: 56
-        bg_color: 0x2A2E38
-        radius: 12
-        border_width: 0
-        pad_left: 10
-        pad_right: 10
+        pad_left: 12
+        pad_right: 12
+        pad_top: 12
+        pad_bottom: 10
         scrollbar_mode: "off"
         widgets:
         - label:
             text: "Grid Power"
             text_font: roboto_sm
-            text_color: 0x888888
+            text_color: 0x94A0B2
             align: TOP_LEFT
-            y: 8
         - label:
             id: overview_grid_power_value
+            width: 180
             text: "--"
-            text_font: roboto_md
-            align: BOTTOM_LEFT
-            y: -8
+            text_font: roboto_xl
+            text_color: 0xFFFFFF
+            text_align: RIGHT
+            align: RIGHT_MID
+            y: -6
+        - label:
+            text: "Magnitude"
+            text_font: roboto_sm
+            text_color: 0x6F7A8A
+            align: LEFT_MID
+            y: 14
+        - obj:
+            width: 100%
+            height: 14
+            align: BOTTOM_MID
+            radius: 8
+            bg_color: 0x11161E
+            border_width: 0
+            clip_corner: true
+            pad_all: 0
+            scrollbar_mode: "off"
+            widgets:
+            - obj:
+                width: 50%
+                height: 100%
+                align: LEFT_MID
+                bg_opa: TRANSP
+                border_width: 0
+                pad_all: 0
+                scrollbar_mode: "off"
+                widgets:
+                - obj:
+                    id: overview_grid_power_fill_left
+                    width: 0
+                    height: 100%
+                    align: RIGHT_MID
+                    bg_color: 0x41C97B
+                    border_width: 0
+                    radius: 0
+                    scrollbar_mode: "off"
+            - obj:
+                width: 50%
+                height: 100%
+                align: RIGHT_MID
+                bg_opa: TRANSP
+                border_width: 0
+                pad_all: 0
+                scrollbar_mode: "off"
+                widgets:
+                - obj:
+                    id: overview_grid_power_fill_right
+                    width: 0
+                    height: 100%
+                    align: LEFT_MID
+                    bg_color: 0xF5B041
+                    border_width: 0
+                    radius: 0
+                    scrollbar_mode: "off"
+            - obj:
+                width: 2
+                height: 14
+                align: CENTER
+                bg_color: 0xD0D6E0
+                border_width: 0
+                radius: 0
+                scrollbar_mode: "off"
     - obj:
-        width: 49%
-        height: 56
-        bg_color: 0x2A2E38
-        radius: 12
+        width: 32%
+        height: 72
+        bg_color: 0x272D38
+        radius: 14
         border_width: 0
         pad_left: 10
         pad_right: 10
+        pad_top: 10
+        pad_bottom: 8
         scrollbar_mode: "off"
         widgets:
         - label:
             text: "Peak Month"
             text_font: roboto_sm
-            text_color: 0x888888
+            text_color: 0x8B96A8
             align: TOP_LEFT
-            y: 8
         - label:
             id: overview_peak_month_value
+            width: 110
             text: "--"
             text_font: roboto_md
-            align: BOTTOM_LEFT
-            y: -8
+            text_color: 0xFFFFFF
+            text_align: RIGHT
+            align: BOTTOM_RIGHT
+            y: -18
+        - bar:
+            id: overview_peak_month_bar
+            width: 100%
+            height: 10
+            align: BOTTOM_MID
+            min_value: 0
+            max_value: 1100
+            value: 0
+            radius: 6
+            bg_color: 0x151A22
+            indicator:
+              bg_color: 0xF5B041
     - obj:
-        width: 49%
-        height: 56
-        bg_color: 0x2A2E38
-        radius: 12
+        width: 32%
+        height: 72
+        bg_color: 0x272D38
+        radius: 14
         border_width: 0
         pad_left: 10
         pad_right: 10
+        pad_top: 10
+        pad_bottom: 8
         scrollbar_mode: "off"
         widgets:
         - label:
             text: "Peak 15m"
             text_font: roboto_sm
-            text_color: 0x888888
+            text_color: 0x8B96A8
             align: TOP_LEFT
-            y: 8
         - label:
             id: overview_peak_quarter_value
+            width: 110
             text: "--"
             text_font: roboto_md
-            align: BOTTOM_LEFT
-            y: -8
+            text_color: 0xFFFFFF
+            text_align: RIGHT
+            align: BOTTOM_RIGHT
+            y: -18
+        - bar:
+            id: overview_peak_quarter_bar
+            width: 100%
+            height: 10
+            align: BOTTOM_MID
+            min_value: 0
+            max_value: 1100
+            value: 0
+            radius: 6
+            bg_color: 0x151A22
+            indicator:
+              bg_color: 0xF39C12
     - obj:
-        width: 49%
-        height: 56
-        bg_color: 0x2A2E38
-        radius: 12
+        width: 32%
+        height: 72
+        bg_color: 0x272D38
+        radius: 14
         border_width: 0
         pad_left: 10
         pad_right: 10
+        pad_top: 10
+        pad_bottom: 8
         scrollbar_mode: "off"
         widgets:
         - label:
             text: "Solar Total"
             text_font: roboto_sm
-            text_color: 0x888888
+            text_color: 0x8B96A8
             align: TOP_LEFT
-            y: 8
         - label:
             id: overview_solar_total_value
+            width: 110
             text: "--"
             text_font: roboto_md
-            align: BOTTOM_LEFT
-            y: -8
+            text_color: 0xFFFFFF
+            text_align: RIGHT
+            align: BOTTOM_RIGHT
+            y: -18
+        - bar:
+            id: overview_solar_total_bar
+            width: 100%
+            height: 10
+            align: BOTTOM_MID
+            min_value: 0
+            max_value: 720
+            value: 0
+            radius: 6
+            bg_color: 0x151A22
+            indicator:
+              bg_color: 0x4CAF50
     - obj:
-        width: 49%
-        height: 56
-        bg_color: 0x2A2E38
-        radius: 12
+        width: 32%
+        height: 72
+        bg_color: 0x242A35
+        radius: 14
         border_width: 0
         pad_left: 10
         pad_right: 10
+        pad_top: 10
+        pad_bottom: 8
         scrollbar_mode: "off"
         widgets:
         - label:
             text: "SDAC Price"
             text_font: roboto_sm
-            text_color: 0x888888
+            text_color: 0x8B96A8
             align: TOP_LEFT
-            y: 8
         - label:
             id: overview_price_value
+            width: 110
             text: "--"
             text_font: roboto_md
-            align: BOTTOM_LEFT
-            y: -8
+            text_color: 0xFFFFFF
+            text_align: RIGHT
+            align: BOTTOM_RIGHT
+            y: -18
+        - bar:
+            id: overview_price_bar
+            width: 100%
+            height: 10
+            align: BOTTOM_MID
+            min_value: 0
+            max_value: 300
+            value: 0
+            radius: 6
+            bg_color: 0x151A22
+            indicator:
+              bg_color: 0x4FC3F7
     - obj:
-        width: 49%
-        height: 56
-        bg_color: 0x2A2E38
-        radius: 12
+        width: 32%
+        height: 72
+        bg_color: 0x242A35
+        radius: 14
         border_width: 0
         pad_left: 10
         pad_right: 10
+        pad_top: 10
+        pad_bottom: 8
         scrollbar_mode: "off"
         widgets:
         - label:
             text: "Polestar D"
             text_font: roboto_sm
-            text_color: 0x888888
+            text_color: 0x8B96A8
             align: TOP_LEFT
-            y: 8
         - label:
             id: overview_polestar_d_value
+            width: 110
             text: "--"
             text_font: roboto_md
-            align: BOTTOM_LEFT
-            y: -8
+            text_color: 0xFFFFFF
+            text_align: RIGHT
+            align: BOTTOM_RIGHT
+            y: -18
+        - bar:
+            id: overview_polestar_d_bar
+            width: 100%
+            height: 10
+            align: BOTTOM_MID
+            min_value: 0
+            max_value: 100
+            value: 0
+            radius: 6
+            bg_color: 0x151A22
+            indicator:
+              bg_color: 0x00C897
     - obj:
-        width: 49%
-        height: 56
-        bg_color: 0x2A2E38
-        radius: 12
+        width: 32%
+        height: 72
+        bg_color: 0x242A35
+        radius: 14
         border_width: 0
         pad_left: 10
         pad_right: 10
+        pad_top: 10
+        pad_bottom: 8
         scrollbar_mode: "off"
         widgets:
         - label:
             text: "Polestar M"
             text_font: roboto_sm
-            text_color: 0x888888
+            text_color: 0x8B96A8
             align: TOP_LEFT
-            y: 8
         - label:
             id: overview_polestar_m_value
+            width: 110
             text: "--"
             text_font: roboto_md
-            align: BOTTOM_LEFT
-            y: -8
+            text_color: 0xFFFFFF
+            text_align: RIGHT
+            align: BOTTOM_RIGHT
+            y: -18
+        - bar:
+            id: overview_polestar_m_bar
+            width: 100%
+            height: 10
+            align: BOTTOM_MID
+            min_value: 0
+            max_value: 100
+            value: 0
+            radius: 6
+            bg_color: 0x151A22
+            indicator:
+              bg_color: 0x00C897
     - obj:
-        width: 49%
-        height: 56
-        bg_color: 0x2A2E38
-        radius: 12
+        width: 32%
+        height: 72
+        bg_color: 0x242A35
+        radius: 14
         border_width: 0
         pad_left: 10
         pad_right: 10
+        pad_top: 10
+        pad_bottom: 8
         scrollbar_mode: "off"
         widgets:
         - label:
             text: "Marstek M1"
             text_font: roboto_sm
-            text_color: 0x888888
+            text_color: 0x8B96A8
             align: TOP_LEFT
-            y: 8
         - label:
             id: overview_m1_soc_value
+            width: 110
             text: "--"
             text_font: roboto_md
-            align: BOTTOM_LEFT
-            y: -8
+            text_color: 0xFFFFFF
+            text_align: RIGHT
+            align: BOTTOM_RIGHT
+            y: -18
+        - bar:
+            id: overview_m1_soc_bar
+            width: 100%
+            height: 10
+            align: BOTTOM_MID
+            min_value: 0
+            max_value: 100
+            value: 0
+            radius: 6
+            bg_color: 0x151A22
+            indicator:
+              bg_color: 0x6DD47E
     - obj:
-        width: 49%
-        height: 56
-        bg_color: 0x2A2E38
-        radius: 12
+        width: 32%
+        height: 72
+        bg_color: 0x242A35
+        radius: 14
         border_width: 0
         pad_left: 10
         pad_right: 10
+        pad_top: 10
+        pad_bottom: 8
         scrollbar_mode: "off"
         widgets:
         - label:
             text: "Marstek M2"
             text_font: roboto_sm
-            text_color: 0x888888
+            text_color: 0x8B96A8
             align: TOP_LEFT
-            y: 8
         - label:
             id: overview_m2_soc_value
+            width: 110
             text: "--"
             text_font: roboto_md
-            align: BOTTOM_LEFT
-            y: -8
+            text_color: 0xFFFFFF
+            text_align: RIGHT
+            align: BOTTOM_RIGHT
+            y: -18
+        - bar:
+            id: overview_m2_soc_bar
+            width: 100%
+            height: 10
+            align: BOTTOM_MID
+            min_value: 0
+            max_value: 100
+            value: 0
+            radius: 6
+            bg_color: 0x151A22
+            indicator:
+              bg_color: 0x6DD47E
     - obj:
-        width: 49%
-        height: 56
-        bg_color: 0x2A2E38
-        radius: 12
+        width: 32%
+        height: 72
+        bg_color: 0x242A35
+        radius: 14
         border_width: 0
         pad_left: 10
         pad_right: 10
+        pad_top: 10
+        pad_bottom: 8
         scrollbar_mode: "off"
         widgets:
         - label:
             text: "Marstek M3"
             text_font: roboto_sm
-            text_color: 0x888888
+            text_color: 0x8B96A8
             align: TOP_LEFT
-            y: 8
         - label:
             id: overview_m3_soc_value
+            width: 110
             text: "--"
             text_font: roboto_md
-            align: BOTTOM_LEFT
-            y: -8
+            text_color: 0xFFFFFF
+            text_align: RIGHT
+            align: BOTTOM_RIGHT
+            y: -18
+        - bar:
+            id: overview_m3_soc_bar
+            width: 100%
+            height: 10
+            align: BOTTOM_MID
+            min_value: 0
+            max_value: 100
+            value: 0
+            radius: 6
+            bg_color: 0x151A22
+            indicator:
+              bg_color: 0x6DD47E

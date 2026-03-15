@@ -11,6 +11,13 @@ grid_phase_1_power_sensor:
           char buf[20];
           snprintf(buf, sizeof(buf), "%+.2f kW", x);
           return std::string(buf);
+    - lvgl.bar.update:
+        id: grid_phase_1_power_bar
+        value: !lambda |-
+          if (std::isnan(x)) return 0;
+          float magnitude = x < 0.0f ? -x : x;
+          if (magnitude > 11.0f) magnitude = 11.0f;
+          return (int) (magnitude * 100.0f);
 
 grid_phase_2_power_sensor:
   sensor:
@@ -25,6 +32,13 @@ grid_phase_2_power_sensor:
           char buf[20];
           snprintf(buf, sizeof(buf), "%+.2f kW", x);
           return std::string(buf);
+    - lvgl.bar.update:
+        id: grid_phase_2_power_bar
+        value: !lambda |-
+          if (std::isnan(x)) return 0;
+          float magnitude = x < 0.0f ? -x : x;
+          if (magnitude > 11.0f) magnitude = 11.0f;
+          return (int) (magnitude * 100.0f);
 
 grid_phase_3_power_sensor:
   sensor:
@@ -39,6 +53,13 @@ grid_phase_3_power_sensor:
           char buf[20];
           snprintf(buf, sizeof(buf), "%+.2f kW", x);
           return std::string(buf);
+    - lvgl.bar.update:
+        id: grid_phase_3_power_bar
+        value: !lambda |-
+          if (std::isnan(x)) return 0;
+          float magnitude = x < 0.0f ? -x : x;
+          if (magnitude > 11.0f) magnitude = 11.0f;
+          return (int) (magnitude * 100.0f);
 
 grid_voltage_1_sensor:
   sensor:
@@ -53,6 +74,14 @@ grid_voltage_1_sensor:
           char buf[16];
           snprintf(buf, sizeof(buf), "%.0f V", x);
           return std::string(buf);
+    - lvgl.bar.update:
+        id: grid_voltage_1_bar
+        value: !lambda |-
+          if (std::isnan(x)) return 230;
+          float value = x;
+          if (value < 215.0f) value = 215.0f;
+          if (value > 255.0f) value = 255.0f;
+          return (int) value;
 
 grid_voltage_2_sensor:
   sensor:
@@ -67,6 +96,14 @@ grid_voltage_2_sensor:
           char buf[16];
           snprintf(buf, sizeof(buf), "%.0f V", x);
           return std::string(buf);
+    - lvgl.bar.update:
+        id: grid_voltage_2_bar
+        value: !lambda |-
+          if (std::isnan(x)) return 230;
+          float value = x;
+          if (value < 215.0f) value = 215.0f;
+          if (value > 255.0f) value = 255.0f;
+          return (int) value;
 
 grid_voltage_3_sensor:
   sensor:
@@ -81,6 +118,14 @@ grid_voltage_3_sensor:
           char buf[16];
           snprintf(buf, sizeof(buf), "%.0f V", x);
           return std::string(buf);
+    - lvgl.bar.update:
+        id: grid_voltage_3_bar
+        value: !lambda |-
+          if (std::isnan(x)) return 230;
+          float value = x;
+          if (value < 215.0f) value = 215.0f;
+          if (value > 255.0f) value = 255.0f;
+          return (int) value;
 
 climate_panel_backend_sensors:
   sensor:

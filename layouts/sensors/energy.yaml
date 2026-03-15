@@ -4,6 +4,13 @@ overview_grid_power_sensor:
     platform: homeassistant
     entity_id: sensor.esp32_s3_energy_meter_grid_power
     on_value:
+    - if:
+        condition:
+          lambda: 'return "${debug_sensor_logs}" == "true";'
+        then:
+        - logger.log:
+            format: "overview_grid_power update: %.3f"
+            args: [ "x" ]
     - lvgl.label.update:
         id: overview_grid_power_value
         text: !lambda |-
@@ -11,6 +18,20 @@ overview_grid_power_sensor:
           char buf[20];
           snprintf(buf, sizeof(buf), "%+.2f kW", x);
           return std::string(buf);
+    - lvgl.widget.update:
+        id: overview_grid_power_fill_left
+        width: !lambda |-
+          if (std::isnan(x) || x >= 0.0f) return 0;
+          float magnitude = -x;
+          if (magnitude > 11.0f) magnitude = 11.0f;
+          return (int) lroundf((magnitude / 11.0f) * 136.0f);
+    - lvgl.widget.update:
+        id: overview_grid_power_fill_right
+        width: !lambda |-
+          if (std::isnan(x) || x <= 0.0f) return 0;
+          float magnitude = x;
+          if (magnitude > 11.0f) magnitude = 11.0f;
+          return (int) lroundf((magnitude / 11.0f) * 136.0f);
 
 overview_peak_month_sensor:
   sensor:
@@ -25,6 +46,14 @@ overview_peak_month_sensor:
           char buf[18];
           snprintf(buf, sizeof(buf), "%.2f kW", x);
           return std::string(buf);
+    - lvgl.bar.update:
+        id: overview_peak_month_bar
+        value: !lambda |-
+          if (std::isnan(x)) return 0;
+          float value = x;
+          if (value < 0.0f) value = 0.0f;
+          if (value > 11.0f) value = 11.0f;
+          return (int) (value * 100.0f);
 
 overview_peak_quarter_sensor:
   sensor:
@@ -39,6 +68,14 @@ overview_peak_quarter_sensor:
           char buf[18];
           snprintf(buf, sizeof(buf), "%.2f kW", x);
           return std::string(buf);
+    - lvgl.bar.update:
+        id: overview_peak_quarter_bar
+        value: !lambda |-
+          if (std::isnan(x)) return 0;
+          float value = x;
+          if (value < 0.0f) value = 0.0f;
+          if (value > 11.0f) value = 11.0f;
+          return (int) (value * 100.0f);
 
 overview_solar_total_sensor:
   sensor:
@@ -53,6 +90,14 @@ overview_solar_total_sensor:
           char buf[18];
           snprintf(buf, sizeof(buf), "%.2f kW", x);
           return std::string(buf);
+    - lvgl.bar.update:
+        id: overview_solar_total_bar
+        value: !lambda |-
+          if (std::isnan(x)) return 0;
+          float value = x;
+          if (value < 0.0f) value = 0.0f;
+          if (value > 7.2f) value = 7.2f;
+          return (int) (value * 100.0f);
 
 overview_price_sensor:
   sensor:
@@ -67,6 +112,14 @@ overview_price_sensor:
           char buf[20];
           snprintf(buf, sizeof(buf), "%.0f EUR/MWh", x);
           return std::string(buf);
+    - lvgl.bar.update:
+        id: overview_price_bar
+        value: !lambda |-
+          if (std::isnan(x)) return 0;
+          float value = x;
+          if (value < 0.0f) value = 0.0f;
+          if (value > 300.0f) value = 300.0f;
+          return (int) value;
 
 overview_polestar_d_sensor:
   sensor:
@@ -81,6 +134,14 @@ overview_polestar_d_sensor:
           char buf[16];
           snprintf(buf, sizeof(buf), "%.0f%%", x);
           return std::string(buf);
+    - lvgl.bar.update:
+        id: overview_polestar_d_bar
+        value: !lambda |-
+          if (std::isnan(x)) return 0;
+          float value = x;
+          if (value < 0.0f) value = 0.0f;
+          if (value > 100.0f) value = 100.0f;
+          return (int) value;
 
 overview_polestar_m_sensor:
   sensor:
@@ -95,6 +156,14 @@ overview_polestar_m_sensor:
           char buf[16];
           snprintf(buf, sizeof(buf), "%.0f%%", x);
           return std::string(buf);
+    - lvgl.bar.update:
+        id: overview_polestar_m_bar
+        value: !lambda |-
+          if (std::isnan(x)) return 0;
+          float value = x;
+          if (value < 0.0f) value = 0.0f;
+          if (value > 100.0f) value = 100.0f;
+          return (int) value;
 
 overview_m1_soc_sensor:
   sensor:
@@ -109,6 +178,14 @@ overview_m1_soc_sensor:
           char buf[16];
           snprintf(buf, sizeof(buf), "%.0f%%", x);
           return std::string(buf);
+    - lvgl.bar.update:
+        id: overview_m1_soc_bar
+        value: !lambda |-
+          if (std::isnan(x)) return 0;
+          float value = x;
+          if (value < 0.0f) value = 0.0f;
+          if (value > 100.0f) value = 100.0f;
+          return (int) value;
 
 overview_m2_soc_sensor:
   sensor:
@@ -123,6 +200,14 @@ overview_m2_soc_sensor:
           char buf[16];
           snprintf(buf, sizeof(buf), "%.0f%%", x);
           return std::string(buf);
+    - lvgl.bar.update:
+        id: overview_m2_soc_bar
+        value: !lambda |-
+          if (std::isnan(x)) return 0;
+          float value = x;
+          if (value < 0.0f) value = 0.0f;
+          if (value > 100.0f) value = 100.0f;
+          return (int) value;
 
 overview_m3_soc_sensor:
   sensor:
@@ -137,3 +222,11 @@ overview_m3_soc_sensor:
           char buf[16];
           snprintf(buf, sizeof(buf), "%.0f%%", x);
           return std::string(buf);
+    - lvgl.bar.update:
+        id: overview_m3_soc_bar
+        value: !lambda |-
+          if (std::isnan(x)) return 0;
+          float value = x;
+          if (value < 0.0f) value = 0.0f;
+          if (value > 100.0f) value = 100.0f;
+          return (int) value;

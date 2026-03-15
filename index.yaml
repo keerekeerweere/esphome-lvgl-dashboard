@@ -1,9 +1,11 @@
 esphome:
-  name: esphome-web-e90dec
-  friendly_name: HA UI
+  name: jc3248w535
+  friendly_name: Guition 320x480 JC3248W535 Native
 
 substitutions:
   home_page: energy
+  log_level: DEBUG
+  debug_sensor_logs: "true"
 
 packages:
   common: !include common.yaml

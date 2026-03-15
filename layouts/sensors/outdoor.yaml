@@ -11,6 +11,14 @@ solar_total_sensor:
           char buf[18];
           snprintf(buf, sizeof(buf), "%.2f kW", x);
           return std::string(buf);
+    - lvgl.bar.update:
+        id: solar_total_bar
+        value: !lambda |-
+          if (std::isnan(x)) return 0;
+          float value = x;
+          if (value < 0.0f) value = 0.0f;
+          if (value > 7.2f) value = 7.2f;
+          return (int) (value * 100.0f);
 
 solar_l1_kw_sensor:
   sensor:
@@ -25,6 +33,14 @@ solar_l1_kw_sensor:
           char buf[18];
           snprintf(buf, sizeof(buf), "%.2f kW", x);
           return std::string(buf);
+    - lvgl.bar.update:
+        id: solar_l1_kw_bar
+        value: !lambda |-
+          if (std::isnan(x)) return 0;
+          float value = x;
+          if (value < 0.0f) value = 0.0f;
+          if (value > 3.2f) value = 3.2f;
+          return (int) (value * 100.0f);
 
 solar_l2_kw_sensor:
   sensor:
@@ -39,6 +55,14 @@ solar_l2_kw_sensor:
           char buf[18];
           snprintf(buf, sizeof(buf), "%.2f kW", x);
           return std::string(buf);
+    - lvgl.bar.update:
+        id: solar_l2_kw_bar
+        value: !lambda |-
+          if (std::isnan(x)) return 0;
+          float value = x;
+          if (value < 0.0f) value = 0.0f;
+          if (value > 3.2f) value = 3.2f;
+          return (int) (value * 100.0f);
 
 solar_l3_kw_sensor:
   sensor:
@@ -53,6 +77,14 @@ solar_l3_kw_sensor:
           char buf[18];
           snprintf(buf, sizeof(buf), "%.2f kW", x);
           return std::string(buf);
+    - lvgl.bar.update:
+        id: solar_l3_kw_bar
+        value: !lambda |-
+          if (std::isnan(x)) return 0;
+          float value = x;
+          if (value < 0.0f) value = 0.0f;
+          if (value > 2.0f) value = 2.0f;
+          return (int) (value * 100.0f);
 
 solar_l1_amp_sensor:
   sensor:
@@ -67,6 +99,14 @@ solar_l1_amp_sensor:
           char buf[16];
           snprintf(buf, sizeof(buf), "%.1f A", x);
           return std::string(buf);
+    - lvgl.bar.update:
+        id: solar_l1_amp_bar
+        value: !lambda |-
+          if (std::isnan(x)) return 0;
+          float value = x;
+          if (value < 0.0f) value = 0.0f;
+          if (value > 16.0f) value = 16.0f;
+          return (int) value;
 
 solar_l2_amp_sensor:
   sensor:
@@ -81,6 +121,14 @@ solar_l2_amp_sensor:
           char buf[16];
           snprintf(buf, sizeof(buf), "%.1f A", x);
           return std::string(buf);
+    - lvgl.bar.update:
+        id: solar_l2_amp_bar
+        value: !lambda |-
+          if (std::isnan(x)) return 0;
+          float value = x;
+          if (value < 0.0f) value = 0.0f;
+          if (value > 16.0f) value = 16.0f;
+          return (int) value;
 
 solar_l3_amp_sensor:
   sensor:
@@ -95,3 +143,11 @@ solar_l3_amp_sensor:
           char buf[16];
           snprintf(buf, sizeof(buf), "%.1f A", x);
           return std::string(buf);
+    - lvgl.bar.update:
+        id: solar_l3_amp_bar
+        value: !lambda |-
+          if (std::isnan(x)) return 0;
+          float value = x;
+          if (value < 0.0f) value = 0.0f;
+          if (value > 16.0f) value = 16.0f;
+          return (int) value;

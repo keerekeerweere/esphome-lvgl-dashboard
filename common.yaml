@@ -2,11 +2,12 @@ esphome:
   min_version: 2024.11.0
 
 logger:
-  level: INFO
+  level: ${log_level}
 
 wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
+  ssid: !secret wifi70_ssid
+  password: !secret wifi70_password
+  domain: !secret wifi70_domain
   on_connect:
     - lvgl.widget.show: wifi_icon
   on_disconnect:
@@ -14,13 +15,19 @@ wifi:
 
 web_server:
   port: 80
+  auth:
+    username: !secret web_server_username
+    password: !secret web_server_password
 
 ota:
   - platform: esphome
+    password: !secret ota_password
 
 api:
   encryption:
     key: !secret api_encryption_key
+  homeassistant_states: true
+  homeassistant_services: true
   on_client_connected:
     - globals.set:
         id: homeassistant_ip
@@ -35,6 +42,8 @@ api:
 button:
   - platform: restart
     name: Restart
+
+captive_portal:
 
 binary_sensor:
   - platform: status
@@ -108,10 +117,29 @@ interval:
       - if:
           condition:
             lambda: |-
-              return id(auto_off_enabled) && id(display_on) && (millis() - id(last_touch_time) > 60000); // 60 seconds timeout
+              return id(auto_off_enabled) && id(display_on) && (millis() - id(last_touch_time) > 300000); // 5 minutes timeout
           then:
             - logger.log: "Display timeout reached, turning off"
             - light.turn_off: backlight
             - globals.set:
                 id: display_on
                 value: 'false'
+  - interval: 30s
+    then:
+      - if:
+          condition:
+            lambda: 'return "${debug_sensor_logs}" == "true";'
+          then:
+            - lambda: |-
+                ESP_LOGI(
+                  "dashboard",
+                  "client=%s grid=%.3f peak_m=%.3f peak_q=%.3f solar=%.3f price=%.3f phase1=%.3f v1=%.3f",
+                  id(homeassistant_ip).c_str(),
+                  id(overview_grid_power).state,
+                  id(overview_peak_month).state,
+                  id(overview_peak_quarter).state,
+                  id(overview_solar_total).state,
+                  id(overview_price).state,
+                  id(grid_phase_1_power).state,
+                  id(grid_voltage_1).state
+                );
