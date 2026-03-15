@@ -33,8 +33,23 @@ solar_l1_kw_sensor:
           char buf[18];
           snprintf(buf, sizeof(buf), "%.2f kW", x);
           return std::string(buf);
+    - lvgl.label.update:
+        id: overview_solar_l1_value
+        text: !lambda |-
+          if (std::isnan(x)) return std::string("--");
+          char buf[18];
+          snprintf(buf, sizeof(buf), "%.2f kW", x);
+          return std::string(buf);
     - lvgl.bar.update:
         id: solar_l1_kw_bar
+        value: !lambda |-
+          if (std::isnan(x)) return 0;
+          float value = x;
+          if (value < 0.0f) value = 0.0f;
+          if (value > 3.2f) value = 3.2f;
+          return (int) (value * 100.0f);
+    - lvgl.bar.update:
+        id: overview_solar_l1_bar
         value: !lambda |-
           if (std::isnan(x)) return 0;
           float value = x;
@@ -55,8 +70,23 @@ solar_l2_kw_sensor:
           char buf[18];
           snprintf(buf, sizeof(buf), "%.2f kW", x);
           return std::string(buf);
+    - lvgl.label.update:
+        id: overview_solar_l2_value
+        text: !lambda |-
+          if (std::isnan(x)) return std::string("--");
+          char buf[18];
+          snprintf(buf, sizeof(buf), "%.2f kW", x);
+          return std::string(buf);
     - lvgl.bar.update:
         id: solar_l2_kw_bar
+        value: !lambda |-
+          if (std::isnan(x)) return 0;
+          float value = x;
+          if (value < 0.0f) value = 0.0f;
+          if (value > 3.2f) value = 3.2f;
+          return (int) (value * 100.0f);
+    - lvgl.bar.update:
+        id: overview_solar_l2_bar
         value: !lambda |-
           if (std::isnan(x)) return 0;
           float value = x;
@@ -77,8 +107,23 @@ solar_l3_kw_sensor:
           char buf[18];
           snprintf(buf, sizeof(buf), "%.2f kW", x);
           return std::string(buf);
+    - lvgl.label.update:
+        id: overview_solar_l3_value
+        text: !lambda |-
+          if (std::isnan(x)) return std::string("--");
+          char buf[18];
+          snprintf(buf, sizeof(buf), "%.2f kW", x);
+          return std::string(buf);
     - lvgl.bar.update:
         id: solar_l3_kw_bar
+        value: !lambda |-
+          if (std::isnan(x)) return 0;
+          float value = x;
+          if (value < 0.0f) value = 0.0f;
+          if (value > 2.0f) value = 2.0f;
+          return (int) (value * 100.0f);
+    - lvgl.bar.update:
+        id: overview_solar_l3_bar
         value: !lambda |-
           if (std::isnan(x)) return 0;
           float value = x;
