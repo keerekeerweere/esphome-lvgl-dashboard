@@ -1,6 +1,6 @@
 - id: go_home
   then:
-  - lvgl.page.show: bedroom
+  - lvgl.page.show: energy
 
 - id: turn_off_display
   then:
@@ -344,33 +344,3 @@
       data_template:
         entity_id: !lambda return id(current_climate_entity);
         fan_mode: !lambda return fan;
-
-- id: update_battery_display
-  then:
-  - lambda: |-
-      float soc = id(battery_soc).state;
-      if (std::isnan(soc)) {
-        lv_label_set_text(id(battery_soc_value), "--%");
-        lv_obj_set_width(id(battery_soc_fill), 0);
-        lv_obj_set_style_bg_color(id(battery_soc_fill), lv_color_hex(0x888888), LV_PART_MAIN);
-        return;
-      }
-      int percent = (int)std::round(soc);
-      char buf[16];
-      snprintf(buf, sizeof(buf), "%d%%", percent);
-      lv_label_set_text(id(battery_soc_value), buf);
-      
-      int container_width = lv_obj_get_width(id(battery_container));
-      int container_height = lv_obj_get_height(id(battery_container));
-      if (container_width > 0) {
-        lv_obj_set_width(id(battery_soc_fill), (container_width * percent) / 100);
-        lv_obj_set_height(id(battery_soc_fill), container_height);
-      }
-      
-      if (percent >= 60) {
-        lv_obj_set_style_bg_color(id(battery_soc_fill), lv_color_hex(0x4CAF50), LV_PART_MAIN);
-      } else if (percent >= 30) {
-        lv_obj_set_style_bg_color(id(battery_soc_fill), lv_color_hex(0xFFCC00), LV_PART_MAIN);
-      } else {
-        lv_obj_set_style_bg_color(id(battery_soc_fill), lv_color_hex(0xFF5252), LV_PART_MAIN);
-      }

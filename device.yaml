@@ -22,12 +22,14 @@ psram:
   speed: 80MHz # 120MHz is not supported and falls back to 40MHz
 
 spi:
-  - type: quad
+  - id: display_qspi
+    type: quad
     clk_pin: 47
     data_pins: [21, 48, 40, 39]
 
 i2c:
-  - sda: 4
+  - id: touchscreen_bus
+    sda: 4
     scl: 8
 
 output:
@@ -45,14 +47,16 @@ light:
 display:
   - id: main_display
     platform: qspi_dbi
+    spi_id: display_qspi
     dimensions:
       height: 480
       width: 320
-    model: CUSTOM
+    model: axs15231
     data_rate: 40MHz
     cs_pin:
       number: 45
       ignore_strapping_warning: true
+    rotation: 90
     draw_from_origin: true
     update_interval: never
     auto_clear_enabled: false
@@ -60,9 +64,14 @@ display:
 touchscreen:
   - id: main_touchscreen
     platform: axs15231
+    display: main_display
+    i2c_id: touchscreen_bus
     touch_timeout: 50ms
     update_interval: 50ms
     address: 0x3B
+    transform:
+      swap_xy: true
+      mirror_y: true
     on_touch:
       - lambda: |-
           // Update the last touch time

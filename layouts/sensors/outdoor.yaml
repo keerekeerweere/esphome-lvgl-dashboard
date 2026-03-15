@@ -1,32 +1,97 @@
-# Outdoor temperature sensor
-outdoor_temp_sensor:
+solar_total_sensor:
   sensor:
-  - id: outdoor_temp
+  - id: solar_total
     platform: homeassistant
-    entity_id: sensor.outdoor_temp_sensor_temperature
+    entity_id: sensor.total_ac_power_pv
     on_value:
     - lvgl.label.update:
-        id: outdoor_temp_value
-        text: !lambda return std::to_string(std::round(x * 10) / 10.0).substr(0, std::to_string(std::round(x * 10) / 10.0).find(".") + 2) + "°C";
+        id: solar_total_value
+        text: !lambda |-
+          if (std::isnan(x)) return std::string("--");
+          char buf[18];
+          snprintf(buf, sizeof(buf), "%.2f kW", x);
+          return std::string(buf);
 
-# Outdoor humidity sensor
-outdoor_humidity_sensor:
+solar_l1_kw_sensor:
   sensor:
-  - id: outdoor_humidity
+  - id: solar_l1_kw
     platform: homeassistant
-    entity_id: sensor.outdoor_temp_sensor_humidity
+    entity_id: sensor.smablue_atersa_power_phase_a
     on_value:
     - lvgl.label.update:
-        id: outdoor_humidity_value
-        text: !lambda return std::to_string(std::round(x * 10) / 10.0).substr(0, std::to_string(std::round(x * 10) / 10.0).find(".") + 2) + "%";
+        id: solar_l1_kw_value
+        text: !lambda |-
+          if (std::isnan(x)) return std::string("--");
+          char buf[18];
+          snprintf(buf, sizeof(buf), "%.2f kW", x);
+          return std::string(buf);
 
-# Outdoor pressure sensor
-outdoor_pressure_sensor:
+solar_l2_kw_sensor:
   sensor:
-  - id: outdoor_pressure
+  - id: solar_l2_kw
     platform: homeassistant
-    entity_id: sensor.outdoor_temp_sensor_pressure
+    entity_id: sensor.smablue_etsolar_power_phase_a
     on_value:
     - lvgl.label.update:
-        id: outdoor_pressure_value
-        text: !lambda return std::to_string(std::round(x * 10) / 10.0).substr(0, std::to_string(std::round(x * 10) / 10.0).find(".") + 2) + "hPa";
+        id: solar_l2_kw_value
+        text: !lambda |-
+          if (std::isnan(x)) return std::string("--");
+          char buf[18];
+          snprintf(buf, sizeof(buf), "%.2f kW", x);
+          return std::string(buf);
+
+solar_l3_kw_sensor:
+  sensor:
+  - id: solar_l3_kw
+    platform: homeassistant
+    entity_id: sensor.smablue_stream_power_phase_a
+    on_value:
+    - lvgl.label.update:
+        id: solar_l3_kw_value
+        text: !lambda |-
+          if (std::isnan(x)) return std::string("--");
+          char buf[18];
+          snprintf(buf, sizeof(buf), "%.2f kW", x);
+          return std::string(buf);
+
+solar_l1_amp_sensor:
+  sensor:
+  - id: solar_l1_amp
+    platform: homeassistant
+    entity_id: sensor.sma_atersa_2100041012_a_phase_current
+    on_value:
+    - lvgl.label.update:
+        id: solar_l1_amp_value
+        text: !lambda |-
+          if (std::isnan(x)) return std::string("--");
+          char buf[16];
+          snprintf(buf, sizeof(buf), "%.1f A", x);
+          return std::string(buf);
+
+solar_l2_amp_sensor:
+  sensor:
+  - id: solar_l2_amp
+    platform: homeassistant
+    entity_id: sensor.sma_etsolar_2100525794_a_phase_current
+    on_value:
+    - lvgl.label.update:
+        id: solar_l2_amp_value
+        text: !lambda |-
+          if (std::isnan(x)) return std::string("--");
+          char buf[16];
+          snprintf(buf, sizeof(buf), "%.1f A", x);
+          return std::string(buf);
+
+solar_l3_amp_sensor:
+  sensor:
+  - id: solar_l3_amp
+    platform: homeassistant
+    entity_id: sensor.sma_stream_2003602544_a_phase_current
+    on_value:
+    - lvgl.label.update:
+        id: solar_l3_amp_value
+        text: !lambda |-
+          if (std::isnan(x)) return std::string("--");
+          char buf[16];
+          snprintf(buf, sizeof(buf), "%.1f A", x);
+          return std::string(buf);

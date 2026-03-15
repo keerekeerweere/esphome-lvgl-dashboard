@@ -3,22 +3,22 @@ globals: !include globals.yaml
 font: !include
   file: fonts/fonts.yaml
   vars:
-    text_sm: 16
-    text_md: 20
-    text_lg: 24
-    text_xl: 32
-    text_xxl: 48
-    icons_sm: 20
-    icons_md: 26
-    icons_lg: 34
-    icons_xl: 42
-    icons_xxl: 50
+    text_sm: 14
+    text_md: 18
+    text_lg: 22
+    text_xl: 28
+    text_xxl: 40
+    icons_sm: 18
+    icons_md: 24
+    icons_lg: 30
+    icons_xl: 38
+    icons_xxl: 46
 
 # Nav widget sizing
 .sizing:
 - &nav_widget_vars
-  height: 50
-  padding: 8
+  height: 40
+  padding: 6
 
 script: !include scripts.yaml
 
@@ -42,13 +42,13 @@ lvgl:
     on_load:
     - script.execute: go_home
 
+  - <<: !include pages/energy.yaml
+  - <<: !include pages/climate.yaml
+  - <<: !include pages/outdoor.yaml
+  - <<: !include pages/corridor.yaml
   - <<: !include pages/bedroom.yaml
   - <<: !include pages/living_room.yaml
   - <<: !include pages/bathroom.yaml
-  - <<: !include pages/corridor.yaml
-  - <<: !include pages/outdoor.yaml
-  - <<: !include pages/energy.yaml
-  - <<: !include pages/climate.yaml
 
 packages:
   # header

@@ -1,25 +1,83 @@
-# Corridor widget sensors
-corridor_light_widget_sensors: !include { file: ../widgets/buttons/icon_text_buttons/light_buttons/sensors.yaml, vars: { uid: corridor_light, entity_id: switch.sonoff_1001275136_2 } }
-mcloset_light_widget_sensors: !include { file: ../widgets/buttons/icon_text_buttons/light_buttons/sensors.yaml, vars: { uid: closet_light, entity_id: switch.sonoff_1000b1b936_3 } }
-
-# Corridor temperature sensor
-corridor_temp_sensor:
+storage_m1_power_sensor:
   sensor:
-  - id: corridor_temp
+  - id: storage_m1_power
     platform: homeassistant
-    entity_id: sensor.corridor_temp_temperature
+    entity_id: sensor.marstek_m1_ac_power_kw
     on_value:
     - lvgl.label.update:
-        id: corridor_temp_value
-        text: !lambda return std::to_string(std::round(x * 10) / 10.0).substr(0, std::to_string(std::round(x * 10) / 10.0).find(".") + 2) + "°C";
+        id: storage_m1_power_value
+        text: !lambda |-
+          if (std::isnan(x)) return std::string("--");
+          char buf[18];
+          snprintf(buf, sizeof(buf), "%+.2f kW", x);
+          return std::string(buf);
 
-# Corridor humidity sensor
-corridor_humidity_sensor:
+storage_m2_power_sensor:
   sensor:
-  - id: corridor_humidity
+  - id: storage_m2_power
     platform: homeassistant
-    entity_id: sensor.corridor_temp_humidity
+    entity_id: sensor.marstek_m2_ac_power_kw
     on_value:
     - lvgl.label.update:
-        id: corridor_humidity_value
-        text: !lambda return std::to_string(std::round(x * 10) / 10.0).substr(0, std::to_string(std::round(x * 10) / 10.0).find(".") + 2) + "%";
+        id: storage_m2_power_value
+        text: !lambda |-
+          if (std::isnan(x)) return std::string("--");
+          char buf[18];
+          snprintf(buf, sizeof(buf), "%+.2f kW", x);
+          return std::string(buf);
+
+storage_m3_power_sensor:
+  sensor:
+  - id: storage_m3_power
+    platform: homeassistant
+    entity_id: sensor.marstek_m3_ac_power_kw
+    on_value:
+    - lvgl.label.update:
+        id: storage_m3_power_value
+        text: !lambda |-
+          if (std::isnan(x)) return std::string("--");
+          char buf[18];
+          snprintf(buf, sizeof(buf), "%+.2f kW", x);
+          return std::string(buf);
+
+storage_m1_soc_sensor:
+  sensor:
+  - id: storage_m1_soc
+    platform: homeassistant
+    entity_id: sensor.marstek_m1_battery_state_of_charge
+    on_value:
+    - lvgl.label.update:
+        id: storage_m1_soc_value
+        text: !lambda |-
+          if (std::isnan(x)) return std::string("--");
+          char buf[16];
+          snprintf(buf, sizeof(buf), "%.0f%%", x);
+          return std::string(buf);
+
+storage_m2_soc_sensor:
+  sensor:
+  - id: storage_m2_soc
+    platform: homeassistant
+    entity_id: sensor.marstek_m2_battery_state_of_charge
+    on_value:
+    - lvgl.label.update:
+        id: storage_m2_soc_value
+        text: !lambda |-
+          if (std::isnan(x)) return std::string("--");
+          char buf[16];
+          snprintf(buf, sizeof(buf), "%.0f%%", x);
+          return std::string(buf);
+
+storage_m3_soc_sensor:
+  sensor:
+  - id: storage_m3_soc
+    platform: homeassistant
+    entity_id: sensor.marstek_m3_battery_state_of_charge
+    on_value:
+    - lvgl.label.update:
+        id: storage_m3_soc_value
+        text: !lambda |-
+          if (std::isnan(x)) return std::string("--");
+          char buf[16];
+          snprintf(buf, sizeof(buf), "%.0f%%", x);
+          return std::string(buf);

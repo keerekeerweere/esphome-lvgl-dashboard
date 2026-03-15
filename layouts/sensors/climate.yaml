@@ -1,324 +1,132 @@
-# Climate sensors and controls
-
-# ============ THERMOSTAT SENSORS ============
-thermostat_sensors:
+grid_phase_1_power_sensor:
   sensor:
-    - id: thermostat_current_temp_sensor
-      platform: homeassistant
-      entity_id: climate.thermostat_thermostat
-      attribute: current_temperature
-      on_value:
-        - lvgl.label.update:
-            id: thermostat_current_temp
-            text: !lambda |-
-              char buf[8];
-              snprintf(buf, sizeof(buf), "%.0f°", x);
-              return std::string(buf);
-        # Update panel if this device is open
-        - if:
-            condition:
-              lambda: return id(current_climate_entity) == "climate.thermostat_thermostat";
-            then:
-            - lvgl.label.update:
-                id: climate_current_temp_big
-                text: !lambda |-
-                  char buf[8];
-                  snprintf(buf, sizeof(buf), "%.0f", x);
-                  return std::string(buf);
+  - id: grid_phase_1_power
+    platform: homeassistant
+    entity_id: sensor.esp32_s3_energy_meter_grid_power_phase_1
+    on_value:
+    - lvgl.label.update:
+        id: grid_phase_1_power_value
+        text: !lambda |-
+          if (std::isnan(x)) return std::string("--");
+          char buf[20];
+          snprintf(buf, sizeof(buf), "%+.2f kW", x);
+          return std::string(buf);
 
-    - id: thermostat_target_temp_sensor
-      platform: homeassistant
-      entity_id: climate.thermostat_thermostat
-      attribute: temperature
-      on_value:
-        - lvgl.label.update:
-            id: thermostat_target_temp
-            text: !lambda |-
-              char buf[8];
-              snprintf(buf, sizeof(buf), "%.0f°", x);
-              return std::string(buf);
-        # Update panel if this device is open
-        - if:
-            condition:
-              lambda: return id(current_climate_entity) == "climate.thermostat_thermostat";
-            then:
-            - globals.set:
-                id: current_climate_target
-                value: !lambda return (int)x;
-            - lambda: lv_arc_set_value(id(climate_temp_arc), (int)x);
-            - lvgl.label.update:
-                id: climate_target_temp_big
-                text: !lambda |-
-                  char buf[8];
-                  snprintf(buf, sizeof(buf), "%.0f°C", x);
-                  return std::string(buf);
-
-  text_sensor:
-    - id: thermostat_hvac_state
-      platform: homeassistant
-      entity_id: climate.thermostat_thermostat
-      on_value:
-        - lvgl.label.update:
-            id: thermostat_status
-            text: !lambda return x;
-        - if:
-            condition:
-              lambda: return id(current_climate_entity) == "climate.thermostat_thermostat";
-            then:
-            - lvgl.label.update:
-                id: climate_control_status
-                text: !lambda return x;
-        - if:
-            condition:
-              lambda: return x == "off";
-            then:
-              - lvgl.widget.update:
-                  id: thermostat_icon_circle
-                  bg_color: 0x42495A
-              - lvgl.label.update:
-                  id: thermostat_icon
-                  text_color: 0x9DA0A6
-            else:
-              - lvgl.widget.update:
-                  id: thermostat_icon_circle
-                  bg_color: 0x5C3A1A
-              - lvgl.label.update:
-                  id: thermostat_icon
-                  text_color: 0xFF8C00
-
-    - id: thermostat_hvac_action
-      platform: homeassistant
-      entity_id: climate.thermostat_thermostat
-      attribute: hvac_action
-      on_value:
-        - if:
-            condition:
-              lambda: return x == "heating";
-            then:
-              - lvgl.widget.update:
-                  id: thermostat_icon_circle
-                  bg_color: 0x5C2A1A
-              - lvgl.label.update:
-                  id: thermostat_icon
-                  text: "\U000F0238"
-                  text_color: 0xFF5722
-            else:
-              - if:
-                  condition:
-                    lambda: return x == "idle";
-                  then:
-                    - lvgl.label.update:
-                        id: thermostat_icon
-                        text: "\U000F0393"
-
-# ============ LIVINGROOM AC SENSORS ============
-livingroom_ac_sensors:
+grid_phase_2_power_sensor:
   sensor:
-    - id: livingroom_ac_current_temp_sensor
-      platform: homeassistant
-      entity_id: climate.c6a1a756
-      attribute: current_temperature
-      on_value:
-        - lvgl.label.update:
-            id: livingroom_ac_current_temp
-            text: !lambda |-
-              char buf[8];
-              snprintf(buf, sizeof(buf), "%.0f°", x);
-              return std::string(buf);
-        - if:
-            condition:
-              lambda: return id(current_climate_entity) == "climate.c6a1a756";
-            then:
-            - lvgl.label.update:
-                id: climate_current_temp_big
-                text: !lambda |-
-                  char buf[8];
-                  snprintf(buf, sizeof(buf), "%.0f", x);
-                  return std::string(buf);
+  - id: grid_phase_2_power
+    platform: homeassistant
+    entity_id: sensor.esp32_s3_energy_meter_grid_power_phase_2
+    on_value:
+    - lvgl.label.update:
+        id: grid_phase_2_power_value
+        text: !lambda |-
+          if (std::isnan(x)) return std::string("--");
+          char buf[20];
+          snprintf(buf, sizeof(buf), "%+.2f kW", x);
+          return std::string(buf);
 
-    - id: livingroom_ac_target_temp_sensor
-      platform: homeassistant
-      entity_id: climate.c6a1a756
-      attribute: temperature
-      on_value:
-        - lvgl.label.update:
-            id: livingroom_ac_target_temp
-            text: !lambda |-
-              char buf[8];
-              snprintf(buf, sizeof(buf), "%.0f°", x);
-              return std::string(buf);
-        - if:
-            condition:
-              lambda: return id(current_climate_entity) == "climate.c6a1a756";
-            then:
-            - globals.set:
-                id: current_climate_target
-                value: !lambda return (int)x;
-            - lambda: lv_arc_set_value(id(climate_temp_arc), (int)x);
-            - lvgl.label.update:
-                id: climate_target_temp_big
-                text: !lambda |-
-                  char buf[8];
-                  snprintf(buf, sizeof(buf), "%.0f°C", x);
-                  return std::string(buf);
-
-  text_sensor:
-    - id: livingroom_ac_hvac_state
-      platform: homeassistant
-      entity_id: climate.c6a1a756
-      on_value:
-        - lvgl.label.update:
-            id: livingroom_ac_status
-            text: !lambda return x;
-        - if:
-            condition:
-              lambda: return id(current_climate_entity) == "climate.c6a1a756";
-            then:
-            - lvgl.label.update:
-                id: climate_control_status
-                text: !lambda return x;
-        - if:
-            condition:
-              lambda: return x == "off";
-            then:
-              - lvgl.widget.update:
-                  id: livingroom_ac_icon_circle
-                  bg_color: 0x42495A
-              - lvgl.label.update:
-                  id: livingroom_ac_icon
-                  text_color: 0x9DA0A6
-            else:
-              - if:
-                  condition:
-                    lambda: return x == "cool";
-                  then:
-                    - lvgl.widget.update:
-                        id: livingroom_ac_icon_circle
-                        bg_color: 0x1A3A5C
-                    - lvgl.label.update:
-                        id: livingroom_ac_icon
-                        text_color: 0x00BFFF
-                  else:
-                    - if:
-                        condition:
-                          lambda: return x == "heat";
-                        then:
-                          - lvgl.widget.update:
-                              id: livingroom_ac_icon_circle
-                              bg_color: 0x5C2A1A
-                          - lvgl.label.update:
-                              id: livingroom_ac_icon
-                              text_color: 0xFF5722
-                        else:
-                          - lvgl.widget.update:
-                              id: livingroom_ac_icon_circle
-                              bg_color: 0x3A4A2A
-                          - lvgl.label.update:
-                              id: livingroom_ac_icon
-                              text_color: 0x8BC34A
-
-# ============ BEDROOM AC SENSORS ============
-bedroom_ac_sensors:
+grid_phase_3_power_sensor:
   sensor:
-    - id: bedroom_ac_current_temp_sensor
-      platform: homeassistant
-      entity_id: climate.c6a1ab8f
-      attribute: current_temperature
-      on_value:
-        - lvgl.label.update:
-            id: bedroom_ac_current_temp
-            text: !lambda |-
-              char buf[8];
-              snprintf(buf, sizeof(buf), "%.0f°", x);
-              return std::string(buf);
-        - if:
-            condition:
-              lambda: return id(current_climate_entity) == "climate.c6a1ab8f";
-            then:
-            - lvgl.label.update:
-                id: climate_current_temp_big
-                text: !lambda |-
-                  char buf[8];
-                  snprintf(buf, sizeof(buf), "%.0f", x);
-                  return std::string(buf);
+  - id: grid_phase_3_power
+    platform: homeassistant
+    entity_id: sensor.esp32_s3_energy_meter_grid_power_phase_3
+    on_value:
+    - lvgl.label.update:
+        id: grid_phase_3_power_value
+        text: !lambda |-
+          if (std::isnan(x)) return std::string("--");
+          char buf[20];
+          snprintf(buf, sizeof(buf), "%+.2f kW", x);
+          return std::string(buf);
 
-    - id: bedroom_ac_target_temp_sensor
-      platform: homeassistant
-      entity_id: climate.c6a1ab8f
-      attribute: temperature
-      on_value:
-        - lvgl.label.update:
-            id: bedroom_ac_target_temp
-            text: !lambda |-
-              char buf[8];
-              snprintf(buf, sizeof(buf), "%.0f°", x);
-              return std::string(buf);
-        - if:
-            condition:
-              lambda: return id(current_climate_entity) == "climate.c6a1ab8f";
-            then:
-            - globals.set:
-                id: current_climate_target
-                value: !lambda return (int)x;
-            - lambda: lv_arc_set_value(id(climate_temp_arc), (int)x);
-            - lvgl.label.update:
-                id: climate_target_temp_big
-                text: !lambda |-
-                  char buf[8];
-                  snprintf(buf, sizeof(buf), "%.0f°C", x);
-                  return std::string(buf);
+grid_voltage_1_sensor:
+  sensor:
+  - id: grid_voltage_1
+    platform: homeassistant
+    entity_id: sensor.voltage_phase_1
+    on_value:
+    - lvgl.label.update:
+        id: grid_voltage_1_value
+        text: !lambda |-
+          if (std::isnan(x)) return std::string("--");
+          char buf[16];
+          snprintf(buf, sizeof(buf), "%.0f V", x);
+          return std::string(buf);
 
+grid_voltage_2_sensor:
+  sensor:
+  - id: grid_voltage_2
+    platform: homeassistant
+    entity_id: sensor.voltage_phase_2
+    on_value:
+    - lvgl.label.update:
+        id: grid_voltage_2_value
+        text: !lambda |-
+          if (std::isnan(x)) return std::string("--");
+          char buf[16];
+          snprintf(buf, sizeof(buf), "%.0f V", x);
+          return std::string(buf);
+
+grid_voltage_3_sensor:
+  sensor:
+  - id: grid_voltage_3
+    platform: homeassistant
+    entity_id: sensor.voltage_phase_3
+    on_value:
+    - lvgl.label.update:
+        id: grid_voltage_3_value
+        text: !lambda |-
+          if (std::isnan(x)) return std::string("--");
+          char buf[16];
+          snprintf(buf, sizeof(buf), "%.0f V", x);
+          return std::string(buf);
+
+climate_panel_backend_sensors:
+  sensor:
+  - id: thermostat_current_temp_sensor
+    platform: homeassistant
+    entity_id: climate.thermostat_thermostat
+    attribute: current_temperature
+    internal: true
+  - id: thermostat_target_temp_sensor
+    platform: homeassistant
+    entity_id: climate.thermostat_thermostat
+    attribute: temperature
+    internal: true
+  - id: livingroom_ac_current_temp_sensor
+    platform: homeassistant
+    entity_id: climate.c6a1a756
+    attribute: current_temperature
+    internal: true
+  - id: livingroom_ac_target_temp_sensor
+    platform: homeassistant
+    entity_id: climate.c6a1a756
+    attribute: temperature
+    internal: true
+  - id: bedroom_ac_current_temp_sensor
+    platform: homeassistant
+    entity_id: climate.c6a1ab8f
+    attribute: current_temperature
+    internal: true
+  - id: bedroom_ac_target_temp_sensor
+    platform: homeassistant
+    entity_id: climate.c6a1ab8f
+    attribute: temperature
+    internal: true
   text_sensor:
-    - id: bedroom_ac_hvac_state
-      platform: homeassistant
-      entity_id: climate.c6a1ab8f
-      on_value:
-        - lvgl.label.update:
-            id: bedroom_ac_status
-            text: !lambda return x;
-        - if:
-            condition:
-              lambda: return id(current_climate_entity) == "climate.c6a1ab8f";
-            then:
-            - lvgl.label.update:
-                id: climate_control_status
-                text: !lambda return x;
-        - if:
-            condition:
-              lambda: return x == "off";
-            then:
-              - lvgl.widget.update:
-                  id: bedroom_ac_icon_circle
-                  bg_color: 0x42495A
-              - lvgl.label.update:
-                  id: bedroom_ac_icon
-                  text_color: 0x9DA0A6
-            else:
-              - if:
-                  condition:
-                    lambda: return x == "cool";
-                  then:
-                    - lvgl.widget.update:
-                        id: bedroom_ac_icon_circle
-                        bg_color: 0x1A3A5C
-                    - lvgl.label.update:
-                        id: bedroom_ac_icon
-                        text_color: 0x00BFFF
-                  else:
-                    - if:
-                        condition:
-                          lambda: return x == "heat";
-                        then:
-                          - lvgl.widget.update:
-                              id: bedroom_ac_icon_circle
-                              bg_color: 0x5C2A1A
-                          - lvgl.label.update:
-                              id: bedroom_ac_icon
-                              text_color: 0xFF5722
-                        else:
-                          - lvgl.widget.update:
-                              id: bedroom_ac_icon_circle
-                              bg_color: 0x3A4A2A
-                          - lvgl.label.update:
-                              id: bedroom_ac_icon
-                              text_color: 0x8BC34A
+  - id: thermostat_hvac_state
+    platform: homeassistant
+    entity_id: climate.thermostat_thermostat
+    attribute: hvac_action
+    internal: true
+  - id: livingroom_ac_hvac_state
+    platform: homeassistant
+    entity_id: climate.c6a1a756
+    attribute: hvac_action
+    internal: true
+  - id: bedroom_ac_hvac_state
+    platform: homeassistant
+    entity_id: climate.c6a1ab8f
+    attribute: hvac_action
+    internal: true

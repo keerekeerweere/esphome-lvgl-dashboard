@@ -3,7 +3,7 @@ esphome:
   friendly_name: HA UI
 
 substitutions:
-  home_page: bedroom
+  home_page: energy
 
 packages:
   common: !include common.yaml

@@ -1,11 +1,11 @@
 id: living_room
-pad_top: 50
-pad_bottom: 50
+pad_top: 40
+pad_bottom: 40
 scrollbar_mode: "off"
 on_load:
 - lvgl.label.update:
     id: page_title
-    text: Living Room
+    text: Living
 widgets:
 - obj:
     width: 100%
@@ -14,16 +14,16 @@ widgets:
     radius: 0
     pad_top: 0
     pad_bottom: 0
-    pad_left: 6
-    pad_right: 6
+    pad_left: 4
+    pad_right: 4
     scrollbar_mode: "off"
     scrollable: false
     layout:
       type: FLEX
       flex_flow: ROW_WRAP
       flex_align_main: START
-      pad_column: 8
-      pad_row: 10
+      pad_column: 6
+      pad_row: 6
     widgets:
     # Separator at the top
     - obj:
@@ -41,8 +41,8 @@ widgets:
             uid: living_room_light
             entity_id: switch.sonoff_1001275592_1
             text: Main
-            width: 49%
-            height: 86
+            width: 32%
+            height: 72
         on_short_click:
         - homeassistant.service:
             service: switch.toggle
@@ -55,8 +55,8 @@ widgets:
             uid: kitchen_light
             entity_id: switch.sonoff_1001275136_3
             text: Kitchen
-            width: 49%
-            height: 86
+            width: 32%
+            height: 72
         on_short_click:
         - homeassistant.service:
             service: switch.toggle
@@ -69,8 +69,8 @@ widgets:
             uid: dinner_table
             entity_id: switch.sonoff_1001275592_3
             text: Table
-            width: 49%
-            height: 86
+            width: 32%
+            height: 72
         on_short_click:
         - homeassistant.service:
             service: switch.toggle
@@ -86,56 +86,46 @@ widgets:
     - obj:
         # temperature sensor
         width: 49%
-        height: 70
-        bg_opa: TRANSP
+        height: 56
+        bg_color: 0x2A2E38
+        radius: 12
         border_width: 0
+        pad_left: 10
+        pad_right: 10
         scrollbar_mode: "off"
         widgets:
-        - label:
-            text_font: mdi_xl
-            text: "\U000F050F"
-            text_color: 0xFF5252
-            align: LEFT_MID
-            x: -10
         - label:
             text: "Temperature"
             text_font: roboto_sm
             text_color: 0x888888
-            align: LEFT_MID
-            x: 30
-            y: -18
+            align: TOP_LEFT
+            y: 8
         - label:
             id: living_room_temp_value
             text: "..."
-            text_font: roboto_xl
-            align: LEFT_MID
-            x: 30
-            y: 14
+            text_font: roboto_md
+            align: BOTTOM_LEFT
+            y: -8
     - obj:
         # humidity sensor
         width: 49%
-        height: 70
-        bg_opa: TRANSP
+        height: 56
+        bg_color: 0x2A2E38
+        radius: 12
         border_width: 0
+        pad_left: 10
+        pad_right: 10
         scrollbar_mode: "off"
         widgets:
-        - label:
-            text_font: mdi_xl
-            text: "\U000F058E"
-            text_color: 0x00CCFF
-            align: LEFT_MID
-            x: -10
         - label:
             text: "Humidity"
             text_font: roboto_sm
             text_color: 0x888888
-            align: LEFT_MID
-            x: 30
-            y: -18
+            align: TOP_LEFT
+            y: 8
         - label:
             id: living_room_humidity_value
             text: "..."
-            text_font: roboto_xl
-            align: LEFT_MID
-            x: 30
-            y: 14
+            text_font: roboto_md
+            align: BOTTOM_LEFT
+            y: -8
